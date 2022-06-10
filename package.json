@@ -1,0 +1,19 @@
+{
+    "name": "vue_pnpm",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "dev": "cross-env node scripts/dev.js runtime-dom -f global"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "vue": "^3.2.35"
+    },
+    "devDependencies": {
+        "esbuild": "^0.14.39",
+        "minimist": "^1.2.6",
+        "typescript": "^4.6.4"
+    }
+}

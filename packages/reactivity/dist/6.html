@@ -1,0 +1,53 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: sueRimn
+ * @Date: 2022-05-26 22:31:37
+ * @LastEditors: sueRimn
+ * @LastEditTime: 2022-05-26 23:03:12
+-->
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: sueRimn
+ * @Date: 2022-05-21 12:29:49
+ * @LastEditors: sueRimn
+ * @LastEditTime: 2022-05-26 22:30:28
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- <script src="../../../node_modules/vue/dist/vue.global.js"></script> -->
+    <!-- <script src="../../../node_modules/@vue/reactivity/dist/reactivity.global.js"></script> -->
+    <script src="./reactivity.global.js"></script>
+    <div id="app"></div>
+
+    <script>
+        const { ref, effect, toRefs, reactive, proxyRefs } = VueReactivity
+        const name = ref('zf');
+        const age = ref(13);
+
+        // 后续其实我们取值都是在模板中取值的，在模板取值自动去掉ref
+
+        // 使用数据的时候 都是把响应式的数据 toRefs，在模板里用不需要+.value 
+
+        effect(() => {
+            app.innerHTML = name.value + age.value
+        });
+
+        // reactive effect ref toRefs proxyRefs computed watch ...
+
+    </script>
+
+
+</body>
+
+</html>

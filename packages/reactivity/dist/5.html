@@ -1,0 +1,74 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: sueRimn
+ * @Date: 2022-05-21 12:29:49
+ * @LastEditors: sueRimn
+ * @LastEditTime: 2022-05-26 22:30:28
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- <script src="../../../node_modules/vue/dist/vue.global.js"></script> -->
+    <!-- <script src="../../../node_modules/@vue/reactivity/dist/reactivity.global.js"></script> -->
+    <script src="./reactivity.global.js"></script>
+    <div id="app"></div>
+
+    <script>
+        let waiting = false
+        const { ref, effect, toRefs, reactive } = VueReactivity
+        // const { ref, effect } = Vue // reactive支持对象类型，ref基本类型变成响应式数据
+
+        const state = reactive({ name: 'zf', age: 12 });
+
+        // 结构后就丧失了响应式的特点了，所以需要用toRefs方法解决
+        // 正向的增加ref 反向的帮你取ref
+        let { name, age } = toRefs(state);
+        effect(() => {
+            app.innerHTML = `${name.value}今年${age.value}岁了`
+        });
+
+        setTimeout(() => {
+            age.value = 1000;
+        }, 1000);
+
+
+
+
+        // const flag = ref(false);
+        // console.log(flag)
+
+
+        // effect(() => {
+        //     app.innerHTML = flag.value ? '你好' : '不好'
+        // })
+
+        // setTimeout(() => {
+        //     flag.value = !flag.value
+        // }, 1000);
+        /*
+        * {
+            _value:0,
+            get(){ // track
+                return _value
+            },
+            set(newValue){  // trigger
+                this._value = newValue
+            }
+        }
+        */
+
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,53 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: sueRimn
+ * @Date: 2022-05-29 12:47:44
+ * @LastEditors: sueRimn
+ * @LastEditTime: 2022-06-09 23:29:18
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app"></div>
+    <!-- <script src="../../../node_modules/@vue/runtime-dom/dist//runtime-dom.global.js"></script> -->
+    <script src="./runtime-dom.global.js"></script>
+    <script>
+        let { createRenderer, h, render, Text, Fragment } = VueRuntimeDOM;
+
+        const MyComponent = {
+            props: {
+                address: String,
+            },
+            render() {  // this.address => instance.props.address
+                return h(Text, this.address)
+            }
+        }
+        const VueComponent = {
+            data() {
+                return { flag: false }
+            },
+            render() {
+                return h(Fragment, [
+                    h('button', { onClick: () => this.flag = !this.flag }, '切换渲染'),
+                    h(MyComponent, { address: this.flag ? '路飞' : '萨博' })
+                ])
+            }
+        }
+
+        // vue props（用户接收的）  attrs（用户没有接收的）
+        render(h(VueComponent), app);
+
+        // 组件时单向数据流的，不能修改属性
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,89 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: sueRimn
+ * @Date: 2022-06-06 19:57:09
+ * @LastEditors: sueRimn
+ * @LastEditTime: 2022-06-06 19:57:10
+-->
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: sueRimn
+ * @Date: 2022-05-29 12:47:44
+ * @LastEditors: sueRimn
+ * @LastEditTime: 2022-06-04 22:57:10
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script src="./runtime-dom.global.js"></script>
+    <script>
+        let { createRenderer, h, render, Text } = VueRuntimeDOM;
+
+        console.log(createRenderer, h, render, Text);
+        // 渲染渲染的是虚拟dom
+        // let renderer = createRenderer({
+        // createElement(element) {
+        //     // setData()
+        //     return document.createElement(element);
+        // },
+        // setElementText(el, text) {
+        //     el.innerHTML = text
+        // },
+        // insert(el, container) {
+        //     container.appendChild(el);
+        // },
+        // patchProp(el, key, prevValue, nextValue) {
+        //     console.log(el, key, nextValue);
+        // }
+        // });
+
+        // createElement
+        // render(h('h1', '123'), app)
+        // render(h('h1', { style: { color: 'red' } }, 'hello'), app);
+        // render(h('h1', { style: { color: 'red' }, onClick: () => alert(1) }, [h('span', 'world'), h('span', 'world')]), app);
+        // render(h('h1', { style: { color: 'red' }, onClick: () => alert(1) }, '123'), app);
+        // render(h('h1', { style: { color: 'red' }, onClick: () => alert(1) }, [h('span', 'world'), 'hello']), app);
+        // render(h('h1', { style: { color: 'red' }, onClick: () => alert(1) }, [h('span', 'world'), h('h1', '1111')]), app);
+        // render(h(Text, 'hello111'), app);
+        render(h('h1', {}, [
+            h('li', { key: 'a' }, 'a'),
+            h('li', { key: 'b' }, 'b'),
+            h('li', { key: 'c' }, 'c'),
+            h('li', { key: 'd' }, 'd'),
+            // h('li', { key: 'gg', style: { color: 'yellow' } }, 'gg'),
+            h('li', { key: 'e', style: { color: 'yellow' } }, 'e'),
+            h('li', { key: 'f' }, 'f'),
+            h('li', { key: 'g' }, 'g'),
+        ]), app);
+
+
+        // 删除
+        setTimeout(() => {
+            render(h('h1', {}, [
+
+                h('li', { key: 'a' }, 'a'),
+                h('li', { key: 'b' }, 'b'),
+                h('li', { key: 'e' }, 'e'),
+                h('li', { key: 'c' }, 'c'),
+                h('li', { key: 'd' }, 'd'),
+                h('li', { key: 'h' }, 'h'),
+                h('li', { key: 'f' }, 'f'),
+                h('li', { key: 'g' }, 'g'),
+
+            ]), app);
+        }, 1000);
+    </script>
+</body>
+
+</html>
