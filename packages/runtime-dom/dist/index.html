@@ -4,7 +4,7 @@
  * @Author: sueRimn
  * @Date: 2022-05-29 12:47:44
  * @LastEditors: sueRimn
- * @LastEditTime: 2022-06-09 23:29:18
+ * @LastEditTime: 2022-06-10 16:28:54
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -21,30 +21,56 @@
     <!-- <script src="../../../node_modules/@vue/runtime-dom/dist//runtime-dom.global.js"></script> -->
     <script src="./runtime-dom.global.js"></script>
     <script>
-        let { createRenderer, h, render, Text, Fragment } = VueRuntimeDOM;
+        let { createRenderer, h, render, Text, Fragment, ref } = VueRuntimeDOM;
 
-        const MyComponent = {
+
+        // const VueComponent = {
+        //     props: {
+        //         address: String,
+        //     },
+        //     setup(props) {
+        //         const name = ref('煮饭');
+        //         const age = ref('12');
+        //         setTimeout(() => {
+        //             age.value++;
+        //         }, 1000);
+        //         return {  // 着对象会帮你去掉.value  {proxyRefs}
+        //             name, age, address: props.address + '北京'
+        //         }
+
+        //         return () => {
+        //             return h(Fragment, [
+        //                 name.value, age.value
+        //             ])
+        //         }
+        //     },
+        // }
+        // render(h(VueComponent, { address: '地球' }), app);
+
+        const VueComponent = {
             props: {
                 address: String,
             },
-            render() {  // this.address => instance.props.address
-                return h(Text, this.address)
-            }
-        }
-        const VueComponent = {
-            data() {
-                return { flag: false }
+            setup(props) {
+                const name = ref('煮饭');
+                const age = ref('12');
+                setTimeout(() => {
+                    age.value++;
+                }, 1000);
+                return {  // 着对象会帮你去掉.value  {proxyRefs}
+                    name, age, address: props.address + '北京'
+                }
             },
             render() {
-                return h(Fragment, [
-                    h('button', { onClick: () => this.flag = !this.flag }, '切换渲染'),
-                    h(MyComponent, { address: this.flag ? '路飞' : '萨博' })
-                ])
+                // return h(Fragment, [
+                //     this.name, this.age, this.address
+                // ])
+                return h('p',
+                    this.name + this.age + this.address
+                )
             }
         }
-
-        // vue props（用户接收的）  attrs（用户没有接收的）
-        render(h(VueComponent), app);
+        render(h(VueComponent, { address: '地球' }), app);
 
         // 组件时单向数据流的，不能修改属性
     </script>

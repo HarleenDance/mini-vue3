@@ -1,5 +1,6 @@
-import { reactive } from "@vue/reactivity";
-import { isFunction, hasOwn } from "@vue/shared";
+
+import { reactive, proxyRefs } from "@vue/reactivity";
+import { isFunction, hasOwn, isObject } from "@vue/shared";
 import { initProps } from "./componentProps";
 /*
  * @Descripttion: 
@@ -7,7 +8,7 @@ import { initProps } from "./componentProps";
  * @Author: sueRimn
  * @Date: 2022-06-09 21:33:48
  * @LastEditors: sueRimn
- * @LastEditTime: 2022-06-09 22:08:51
+ * @LastEditTime: 2022-06-10 16:16:57
  */
 export function createComponentInstance(vnode) {
     const instance = { // 组件的实例
@@ -22,6 +23,7 @@ export function createComponentInstance(vnode) {
         attrs: {},
         proxy: null,
         render: null,
+        setupState: {},
     }
     return instance;
 }
@@ -31,9 +33,11 @@ const publicPropertyMap = {
 }
 const publicInstanceProxy = {
     get(target, key) {
-        const { data, props } = target;
+        const { data, props, setupState } = target;
         if (data && hasOwn(data, key)) {
             return data[key];
+        } else if (hasOwn(setupState, key)) {
+            return setupState[key];
         } else if (props && hasOwn(props, key)) {
             return props[key];
         }
@@ -46,12 +50,15 @@ const publicInstanceProxy = {
         }
     },
     set(target, key, value) {
-        const { data, props } = target;
+        const { data, props, setupState } = target;
         if (data && hasOwn(data, key)) {
             data[key] = value;
             return true;
             // 用户操作的属性是代理对象，这里面被屏蔽了
             // 我们可以通过instance.props  拿到真实的props
+        } else if (hasOwn(setupState, key)) {
+            setupState[key] = value;
+            return true;
         } else if (props && hasOwn(props, key)) {
             console.warn('attempting to mutate prop ' + (key as string));
             return false;
@@ -75,7 +82,26 @@ export function setupComponent(instance) {
         instance.data = reactive(data.call(instance.proxy));// pinia 源码就是 reactive({})  作为组件状态
     }
 
-    instance.render = type.render
+    let setup = type.setup;
+    if (setup) {
+        const setupContext = {}
+        const setupResult = setup(instance.props, setupContext);
+
+        // 是函数计算render  不是函数就是对象 ，对对象进行处理
+        if (isFunction(setupResult)) {
+            instance.render = setupResult;
+        } else if (isObject(setupResult)) {
+            // 对内部的ref 进行取消.value
+            instance.setupState = proxyRefs(setupResult)
+        }
+    }
+
+    if (!instance.render) {
+        instance.render = type.render;
+    }
+
+
+    // instance.render = type.render
 
 
 }

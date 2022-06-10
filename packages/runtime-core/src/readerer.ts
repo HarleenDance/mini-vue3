@@ -4,7 +4,7 @@
  * @Author: sueRimn
  * @Date: 2022-05-29 15:11:10
  * @LastEditors: sueRimn
- * @LastEditTime: 2022-06-10 15:04:48
+ * @LastEditTime: 2022-06-10 16:26:17
  */
 import { hasOwn, isNumber, isString, ShapeFlags } from "@vue/shared";
 import { ReactiveEffect, reactive } from "@vue/reactivity";
@@ -297,17 +297,22 @@ export function createRenderer(renderOptions) {
         let newProps = n2.props || {}// 对象
         // 比较属性
         patchProps(oldProps, newProps, el);
-        // 比较儿子
+
+
+        // 比较儿子   n2需要做处理
+        // n2 = normalize()
+        debugger
         patchChildren(n1, n2, el);
     }
     const processElement = (n1, n2, container, anchor) => {
-        console.log(n2);
+        // console.log(n2);
 
         if (n1 === null) {
             // 初始渲染
             // 后续还有组件的初次渲染，目前是元素的初始化渲染
             mountElement(n2, container, anchor)
         } else {
+
             // 更新流程  元素比对
             patchElement(n1, n2)
         }
@@ -316,6 +321,7 @@ export function createRenderer(renderOptions) {
         if (n1 == null) {
             mountChildren(n2.children, container)
         } else {
+            debugger
             patchChildren(n1, n2, container)  // 走的是diff算法
         }
     }
